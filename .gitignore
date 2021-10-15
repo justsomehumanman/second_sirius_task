@@ -1,0 +1,4 @@
+# created by virtualenv automatically
+__pychache__/
+*.pyc
+db.sqlite3
