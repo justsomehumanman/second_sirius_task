@@ -15,12 +15,13 @@ class CreateBouquet(MutationPayLoad, graphene.Mutation):
         input = BouquetInput(required=True)
 
     bouquet = graphene.Field(BouquetType)
+    bouquet_id = graphene.Int()
 
     @staticmethod
     def mutate(root, info, input):
         bouquet = Bouquet(**input)
         bouquet.save()
-        return CreateBouquet(bouquet=bouquet)
+        return CreateBouquet(bouquet=bouquet, bouquet_id=bouquet.id)
 
 
 class UpdateBouquet(MutationPayLoad, graphene.Mutation):
@@ -29,6 +30,7 @@ class UpdateBouquet(MutationPayLoad, graphene.Mutation):
         id = graphene.Int(required=True)
 
     bouquet = graphene.Field(BouquetType)
+    bouquet_id = graphene.Int()
 
     @staticmethod
     def mutate(root, info, id, input):
@@ -38,7 +40,7 @@ class UpdateBouquet(MutationPayLoad, graphene.Mutation):
         bouquet.price = input.price
         bouquet.link_on_photo = input.link_on_photo
         bouquet.save()
-        return UpdateBouquet(bouquet=bouquet)
+        return UpdateBouquet(bouquet=bouquet, bouquet_id=bouquet.id)
 
 
 class DeleteBouquet(MutationPayLoad, graphene.Mutation):

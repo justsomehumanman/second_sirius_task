@@ -14,12 +14,13 @@ class CreateCustomer(MutationPayLoad, graphene.Mutation):
         input = CustomerInput(required=True)
 
     customer = graphene.Field(CustomerType)
+    customer_id = graphene.Int()
 
     @staticmethod
     def mutate(root, info, input):
         customer = Customer(**input)
         customer.save()
-        return CreateCustomer(customer=customer)
+        return CreateCustomer(customer=customer, customer_id=customer.id)
 
 
 class UpdateCustomer(MutationPayLoad, graphene.Mutation):
@@ -28,13 +29,14 @@ class UpdateCustomer(MutationPayLoad, graphene.Mutation):
         id = graphene.Int(required=True)
 
     customer = graphene.Field(CustomerType)
+    customer_id = graphene.Int()
 
     @staticmethod
     def mutate(root, info, id, input):
         customer = Customer.objects.get(pk=id)
         customer.name = input.name
         customer.mail = input.mail
-        return UpdateCustomer(customer=customer)
+        return UpdateCustomer(customer=customer, customer_id=customer.id)
     
     
 class DeleteCustomer(MutationPayLoad, graphene.Mutation):

@@ -16,13 +16,14 @@ class CreateSeller(MutationPayLoad, graphene.Mutation):
         input = SellerInput(required=True)
 
     seller = graphene.Field(SellerType)
+    seller_id = graphene.Int()
 
     @staticmethod
     def mutate(root, info, input):
         seller = Seller(**input)
         seller.created_date = datetime.date.today()
         seller.save()
-        return CreateSeller(seller=seller)
+        return CreateSeller(seller=seller, seller_id=seller.id)
 
 
 class UpdateSeller(MutationPayLoad, graphene.Mutation):
@@ -31,6 +32,7 @@ class UpdateSeller(MutationPayLoad, graphene.Mutation):
         id = graphene.Int(required=True)
 
     seller = graphene.Field(SellerType)
+    seller_id = graphene.Int()
 
     @staticmethod
     def mutate(root, info, id, input):
@@ -38,7 +40,7 @@ class UpdateSeller(MutationPayLoad, graphene.Mutation):
         seller.shop_name = input.name
         seller.link_on_photo = input.link_on_photo
         seller.save()
-        return UpdateSeller(seller=seller)
+        return UpdateSeller(seller=seller, seller_id=seller.id)
 
 
 class DeleteSeller(MutationPayLoad, graphene.Mutation):
