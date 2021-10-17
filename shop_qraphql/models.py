@@ -1,4 +1,5 @@
 from django.db import models
+from .form_checks import is_link
 
 
 class Customer(models.Model):
